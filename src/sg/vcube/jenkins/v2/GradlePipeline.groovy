@@ -1,4 +1,4 @@
-package sg.vcube.jenkins
+package sg.vcube.jenkins.v2
 
 def execute(modules, options = ["unstable"]) {
     if (BRANCH_NAME.startsWith("release/")) {
@@ -25,7 +25,7 @@ def execute(modules, options = ["unstable"]) {
 
             stage("Build All") {
                 def GRADLE_HOME = tool name: "Gradle", type: "gradle"
-                sh "$GRADLE_HOME/bin/gradle compilePublications"
+                sh "$GRADLE_HOME/bin/gradle worksCreatePublication"
             }
 
             stage("Release All") {
@@ -183,18 +183,8 @@ def publishModule(name, module) {
     uploadSpec = """{
                           "files": [
                              {
-                              "pattern": "${path}/build/libs/(${name}-${version}-*)",
-                              "target": "libs-android-gate/${group}/${name}/${version}/{1}"
-                             },
-                             {
-                              "pattern": "${path}/build/publications/projectRelease/pom-default.xml",
-                              "target": "libs-android-gate/${group}/${name}/${version}/${
-        name
-    }-${version}.pom"
-                             },
-                             {
-                              "pattern": "${path}/build/**/(${name}-${version}.*)",
-                              "target": "libs-android-gate/${group}/${name}/${version}/{1}"
+                              "pattern": "${module.path}/build/libs/(${name}-${version}*)",
+                              "target": "libs-gradle/${group}/${name}/${version}/{1}"
                              }
                           ]
                         }"""

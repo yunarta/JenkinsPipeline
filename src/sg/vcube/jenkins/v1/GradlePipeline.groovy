@@ -1,4 +1,4 @@
-package sg.vcube.jenkins
+package sg.vcube.jenkins.v1
 
 def execute(modules, options = ["unstable"]) {
     if (BRANCH_NAME.startsWith("release/")) {
