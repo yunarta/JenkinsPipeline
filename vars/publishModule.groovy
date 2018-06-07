@@ -1,7 +1,7 @@
 def call(map) {
     def group = map.group.replaceAll("\\.", "/")
     def version = map.version
-    def artifact = map.name
+    def artifact = map.path
     def repo = map.repo
 
     println("""Publishing ${group}:${artifact}:${version}""")

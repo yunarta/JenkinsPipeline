@@ -49,15 +49,11 @@ import publishModule
 private void releaseProject(params) {
     gitMessage = "sign off" // sh(script: "git log -2 --format=\"%s\"", returnStdout: true).trim()
     if ("${gitMessage}".toLowerCase().startsWith("sign off")) {
-        def report = params.modules.collect {
-            "module file for ${it} exists = ${fileExists(it + "/module.properties")}"
-        }
-        println("""Module check
-                   ${report}""")
-
         params.modules.each {
             def module = readProperties file: it + "/module.properties"
-            module["repo"] = params.repo.relese
+            module["repo"] = params.repo.release
+            module["path"] = it
+
             publishModule module
         }
     } else {
