@@ -1,14 +1,15 @@
 def call(map) {
     def group = map.group.replaceAll("\\.", "/")
     def version = map.version
-    def artifact = map.path
+    def path = map.path
+    def artifact = map.name
     def repo = map.repo
 
     println("""Publishing ${group}:${artifact}:${version}""")
     uploadSpec = """{
                           "files": [
                              {
-                              "pattern": "${artifact}/build/libs/(${artifact}-${version}*)",
+                              "pattern": "${path}/build/libs/(${artifact}-${version}*)",
                               "target": "${repo}/${group}/${artifact}/${version}/{1}"
                              }
                           ]
